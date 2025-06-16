@@ -21,7 +21,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
     <!-- Vite Assets -->
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/app.js', 'resources/js/inline-editor.js', 'resources/css/inline-editor.css'])
+
 
     @stack('styles')
 </head>

@@ -5,7 +5,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/app.js'
+                'resources/js/app.js',
+                'resources/js/inline-editor.js',   // Добавьте эту строку
+                'resources/css/inline-editor.css', // Добавьте эту строку
             ],
             refresh: true,
         }),

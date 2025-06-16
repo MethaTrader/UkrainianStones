@@ -1,0 +1,190 @@
+/**
+ * Стили для Inline Editor
+ * Интеграция с существующим дизайном "Український Камінь"
+ */
+
+/* Базовые стили для редактируемых элементов */
+.editable {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Hover состояние для редактируемых элементов */
+.editable:hover:not([contenteditable="true"]) {
+    outline: 2px dashed rgba(0, 123, 255, 0.3) !important;
+    background-color: rgba(0, 123, 255, 0.05) !important;
+    cursor: text !important;
+    border-radius: 4px;
+}
+
+/* Стили для активного редактирования */
+.editable[contenteditable="true"] {
+    outline: 2px solid #007bff !important;
+    background-color: rgba(0, 123, 255, 0.1) !important;
+    border-radius: 4px !important;
+    min-height: 1.2em !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    /* Убираем дополнительный padding чтобы текст не смещался */
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Убираем стандартный outline браузера */
+.editable[contenteditable="true"]:focus {
+    outline: 2px solid #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Стили для пустых редактируемых элементов */
+.editable:empty:before {
+    content: attr(data-placeholder);
+    color: #6c757d;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.editable[contenteditable="true"]:empty:before {
+    content: attr(data-placeholder);
+    color: #6c757d;
+    font-style: italic;
+    opacity: 0.5;
+}
+
+/* Специальные стили для разных типов элементов */
+.editable.navbar-brand {
+    display: inline-block;
+}
+
+.editable.nav-link {
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.editable.display-2,
+.editable.display-3,
+.editable.display-4 {
+    word-break: break-word;
+}
+
+.editable.lead {
+    line-height: 1.6;
+}
+
+/* Стили для кнопок и ссылок */
+.editable.btn {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.editable.btn:hover:not([contenteditable="true"]) {
+    background-color: rgba(0, 123, 255, 0.1) !important;
+    border-color: rgba(0, 123, 255, 0.3) !important;
+}
+
+/* Стили для footer элементов */
+.footer .editable:hover:not([contenteditable="true"]) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    outline-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.footer .editable[contenteditable="true"] {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    outline-color: rgba(255, 255, 255, 0.5) !important;
+    color: white !important;
+}
+
+/* Стили для уведомлений */
+.inline-editor-notification {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.inline-editor-notification i {
+    font-size: 16px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .editable:hover:not([contenteditable="true"]) {
+        outline-width: 1px;
+    }
+
+    .editable[contenteditable="true"] {
+        outline-width: 1px !important;
+        padding: 2px !important;
+    }
+
+    .inline-editor-notification {
+        font-size: 12px;
+        padding: 8px 12px;
+        right: 10px;
+        top: 10px;
+    }
+}
+
+/* Темная тема для редактирования в темных секциях */
+.bg-dark .editable:hover:not([contenteditable="true"]),
+.footer .editable:hover:not([contenteditable="true"]) {
+    outline-color: rgba(255, 255, 255, 0.4) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.bg-dark .editable[contenteditable="true"],
+.footer .editable[contenteditable="true"] {
+    outline-color: rgba(255, 255, 255, 0.6) !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+/* Предотвращаем сломанный макет при редактировании */
+.editable[contenteditable="true"] {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    /* Убираем margin и padding которые могут смещать текст */
+    box-sizing: border-box;
+}
+
+/* Убираем лишние отступы в тексте */
+.editable[contenteditable="true"]:focus {
+    white-space: pre-wrap;
+}
+
+/* Скрываем placeholder если есть текст */
+.editable:not(:empty):before {
+    display: none;
+}
+
+/* Улучшенная видимость курсора */
+.editable[contenteditable="true"] {
+    caret-color: #007bff;
+}
+
+/* Анимация для smooth transitions */
+.editable {
+    transition: outline 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Стили для специфических элементов проекта */
+.editable.logo-text:hover:not([contenteditable="true"]) {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05));
+}
+
+.editable.hero-title:hover:not([contenteditable="true"]),
+.editable.hero-subtitle:hover:not([contenteditable="true"]) {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), transparent);
+}
+
+/* Стили для контактной информации */
+.contact-info .editable:hover:not([contenteditable="true"]) {
+    background-color: rgba(0, 123, 255, 0.08) !important;
+    outline-color: rgba(0, 123, 255, 0.4) !important;
+}
+
+/* Стили для заголовков секций */
+.section-title.editable:hover:not([contenteditable="true"]) {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.02));
+}

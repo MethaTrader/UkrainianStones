@@ -1,21 +1,23 @@
+{{-- resources/views/components/hero.blade.php с добавленным inline редактированием --}}
+
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center min-vh-100">
             <div class="col-lg-6">
                 <div class="hero-content">
-                    <h1 class="display-2 hero-title" data-aos="fade-up" data-aos-delay="600">
+                    <h1 class="display-2 hero-title editable" data-aos="fade-up" data-aos-delay="600" data-placeholder="Главный заголовок страницы">
                         Відкрийте Український Камінь
                     </h1>
-                    <p class="lead hero-subtitle mb-4" data-aos="fade-up" data-aos-delay="800">
+                    <p class="lead hero-subtitle mb-4 editable" data-aos="fade-up" data-aos-delay="800" data-placeholder="Описание вашей компании или услуг">
                         Преміальні плити, пам'ятники та меморіали, виготовлені з найкращих матеріалів України.
                     </p>
                     <div class="hero-actions" data-aos="fade-up" data-aos-delay="1000">
                         <a href="#products" class="btn btn-primary btn-lg me-3 custom-btn-primary">
-                            <i class="fas fa-gem me-2"></i>Переглянути продукцію
+                            <i class="fas fa-gem me-2"></i><span class="editable" data-placeholder="Текст кнопки">Переглянути продукцію</span>
                         </a>
                         <a href="#contact" class="btn btn-outline-primary btn-lg custom-btn-secondary">
-                            <i class="fas fa-envelope me-2"></i>Зв'язатися з нами
+                            <i class="fas fa-envelope me-2"></i><span class="editable" data-placeholder="Текст кнопки">Зв'язатися з нами</span>
                         </a>
                     </div>
                 </div>
@@ -26,8 +28,34 @@
                          alt="Українська кам'яна плита"
                          class="img-fluid rounded-3 shadow-lg"
                          loading="lazy">
+                    {{-- Подпись под изображением тоже можно сделать редактируемой --}}
+                    <div class="text-center mt-3">
+                        <small class="text-muted editable" data-placeholder="Подпись к изображению">Преміальна українська кам'яна плита</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+{{-- 
+ИЗМЕНЕНИЯ В HERO СЕКЦИИ:
+1. Главный заголовок (h1) - редактируемый
+2. Подзаголовок (p.lead) - редактируемый  
+3. Текст внутри кнопок обернут в span.editable
+4. Добавлена редактируемая подпись под изображением
+5. Все элементы имеют понятные data-placeholder атрибуты
+
+ОСОБЕННОСТИ:
+- Большие заголовки автоматически переносятся при редактировании
+- Сохраняются все AOS анимации
+- Bootstrap классы остаются неизменными
+- Кнопки остаются функциональными (только текст редактируется)
+
+РЕЗУЛЬТАТ:
+Администратор может легко изменить:
+- Главный слоган компании
+- Описание услуг
+- Тексты на кнопках
+- Подписи к изображениям
+--}}
