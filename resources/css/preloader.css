@@ -1,0 +1,323 @@
+/*
+====================================
+PRELOADER STYLES
+====================================
+Ukrainian Stone Preloader
+Version: 1.0
+Date: 2025
+*/
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #F5F5DC 0%, #DEB887 50%, #8B4513 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+}
+
+.preloader-content {
+    text-align: center;
+    color: #5C4033;
+    max-width: 400px;
+    padding: 2rem;
+}
+
+/* Stone Animation */
+.stone-animation {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+}
+
+.stone {
+    position: absolute;
+    border-radius: 50% 40% 60% 30%;
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    box-shadow:
+            inset -10px -10px 20px rgba(92, 64, 51, 0.3),
+            inset 10px 10px 20px rgba(160, 82, 45, 0.3),
+            0 10px 30px rgba(139, 69, 19, 0.4);
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.stone-1 {
+    width: 40px;
+    height: 40px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #DEB887, #F5F5DC);
+    animation: stone-float-1 2.5s infinite ease-in-out;
+}
+
+.stone-2 {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    left: 10px;
+    background: linear-gradient(135deg, #8B4513, #5C4033);
+    animation: stone-float-2 2.8s infinite ease-in-out 0.5s;
+}
+
+.stone-3 {
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 10px;
+    background: linear-gradient(135deg, #A0522D, #8B4513);
+    animation: stone-float-3 3s infinite ease-in-out 1s;
+}
+
+/* Stone Animations */
+@keyframes stone-float-1 {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0) rotate(0deg);
+        box-shadow:
+                inset -5px -5px 10px rgba(92, 64, 51, 0.2),
+                inset 5px 5px 10px rgba(245, 245, 220, 0.3),
+                0 5px 15px rgba(139, 69, 19, 0.3);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-20px) rotate(180deg);
+        box-shadow:
+                inset -8px -8px 15px rgba(92, 64, 51, 0.3),
+                inset 8px 8px 15px rgba(245, 245, 220, 0.4),
+                0 15px 25px rgba(139, 69, 19, 0.4);
+    }
+}
+
+@keyframes stone-float-2 {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        border-radius: 50% 40% 60% 30%;
+    }
+    33% {
+        transform: translateY(-15px) rotate(120deg) scale(1.1);
+        border-radius: 40% 60% 30% 50%;
+    }
+    66% {
+        transform: translateY(-5px) rotate(240deg) scale(0.9);
+        border-radius: 60% 30% 50% 40%;
+    }
+}
+
+@keyframes stone-float-3 {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        border-radius: 50% 40% 60% 30%;
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(-10px) rotate(90deg);
+        border-radius: 30% 50% 40% 60%;
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-18px) rotate(180deg);
+        border-radius: 60% 30% 50% 40%;
+        opacity: 0.9;
+    }
+    75% {
+        transform: translateY(-8px) rotate(270deg);
+        border-radius: 40% 60% 30% 50%;
+        opacity: 0.7;
+    }
+}
+
+/* Preloader Text */
+.preloader-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #5C4033;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(92, 64, 51, 0.1);
+    animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+.preloader-subtitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #8B4513;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+    animation: text-fade 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes text-glow {
+    0% {
+        text-shadow: 2px 2px 4px rgba(92, 64, 51, 0.1);
+        transform: scale(1);
+    }
+    100% {
+        text-shadow: 2px 2px 8px rgba(92, 64, 51, 0.3), 0 0 20px rgba(139, 69, 19, 0.2);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes text-fade {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(139, 69, 19, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(92, 64, 51, 0.2);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B4513, #A0522D, #DEB887);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: progress-shimmer 2s linear infinite;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+    );
+    animation: progress-shine 2s ease-in-out infinite;
+}
+
+@keyframes progress-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes progress-shine {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .preloader-content {
+        padding: 1rem;
+    }
+
+    .preloader-title {
+        font-size: 2rem;
+    }
+
+    .preloader-subtitle {
+        font-size: 1rem;
+    }
+
+    .stone-animation {
+        width: 100px;
+        height: 100px;
+    }
+
+    .stone-1 {
+        width: 35px;
+        height: 35px;
+    }
+
+    .stone-2 {
+        width: 40px;
+        height: 40px;
+    }
+
+    .stone-3 {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* Preloader fade out effect */
+@keyframes preloader-fade-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+        visibility: hidden;
+    }
+}
+
+.preloader.fade-out {
+    animation: preloader-fade-out 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Additional stone texture effect */
+.stone::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle at 30% 30%,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 50%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Subtle background pattern */
+.preloader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+            radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(160, 82, 45, 0.1) 0%, transparent 50%);
+    animation: background-float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes background-float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-10px, -10px) scale(1.05);
+        opacity: 0.3;
+    }
+}
