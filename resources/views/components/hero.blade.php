@@ -13,11 +13,29 @@
                         Преміальні плити, пам'ятники та меморіали, виготовлені з найкращих матеріалів України.
                     </p>
                     <div class="hero-actions" data-aos="fade-up" data-aos-delay="1000">
-                        <a href="#products" class="btn btn-primary btn-lg me-3 custom-btn-primary">
-                            <i class="fas fa-gem me-2"></i><span class="editable" data-placeholder="Текст кнопки">Переглянути продукцію</span>
+                        <a @guest href="#products" @endguest
+                        @auth
+                            @if(auth()->user()->canEditContent())
+                                href="javascript:void(0)"
+                           data-original-href="#products"
+                           @else
+                               href="#products"
+                           @endif
+                           @endauth
+                           class="btn btn-primary btn-lg me-3 custom-btn-primary @auth @if(auth()->user()->canEditContent()) admin-disabled-btn @endif @endauth">
+                            <i class="fas fa-gem me-2"></i><span class="@auth @if(auth()->user()->canEditContent()) editable @endif @endauth" @auth @if(auth()->user()->canEditContent()) data-placeholder="Текст кнопки" @endif @endauth>Переглянути продукцію</span>
                         </a>
-                        <a href="#contact" class="btn btn-outline-primary btn-lg custom-btn-secondary">
-                            <i class="fas fa-envelope me-2"></i><span class="editable" data-placeholder="Текст кнопки">Зв'язатися з нами</span>
+                        <a @guest href="#contact" @endguest
+                        @auth
+                            @if(auth()->user()->canEditContent())
+                                href="javascript:void(0)"
+                           data-original-href="#contact"
+                           @else
+                               href="#contact"
+                           @endif
+                           @endauth
+                           class="btn btn-outline-primary btn-lg custom-btn-secondary @auth @if(auth()->user()->canEditContent()) admin-disabled-btn @endif @endauth">
+                            <i class="fas fa-envelope me-2"></i><span class="@auth @if(auth()->user()->canEditContent()) editable @endif @endauth" @auth @if(auth()->user()->canEditContent()) data-placeholder="Текст кнопки" @endif @endauth>Зв'язатися з нами</span>
                         </a>
                     </div>
                 </div>

@@ -1,4 +1,21 @@
-/**
+/* Стили для кнопок и ссылок - базовые настройки */
+.editable.btn {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Общие стили для всех пользователей */
+body[data-user-role="guest"] .editable,
+body[data-user-role="user"] .editable {
+    /* Никаких специальных стилей для неадминов */
+    position: static !important;
+}
+
+/* Убираем transition для неадминов, чтобы избежать случайных эффектов */
+body[data-user-role="guest"] .editable,
+body[data-user-role="user"] .editable {
+    transition: none !important;
+}/**
  * Стили для Inline Editor
  * Интеграция с существующим дизайном "Український Камінь"
  */
@@ -9,12 +26,25 @@
     transition: all 0.2s ease;
 }
 
-/* Hover состояние для редактируемых элементов */
-.editable:hover:not([contenteditable="true"]) {
+/* Hover состояние для редактируемых элементов - ТОЛЬКО для админа */
+body[data-user-role="admin"] .editable:hover:not([contenteditable="true"]) {
     outline: 2px dashed rgba(0, 123, 255, 0.3) !important;
     background-color: rgba(0, 123, 255, 0.05) !important;
     cursor: text !important;
     border-radius: 4px;
+}
+
+/* Убираем любые hover эффекты для гостей и обычных пользователей */
+body[data-user-role="guest"] .editable,
+body[data-user-role="user"] .editable {
+    cursor: default !important;
+}
+
+body[data-user-role="guest"] .editable:hover,
+body[data-user-role="user"] .editable:hover {
+    outline: none !important;
+    background-color: transparent !important;
+    cursor: default !important;
 }
 
 /* Стили для активного редактирования */
@@ -71,27 +101,32 @@
     line-height: 1.6;
 }
 
-/* Стили для кнопок и ссылок */
-.editable.btn {
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.editable.btn:hover:not([contenteditable="true"]) {
+/* Стили для кнопок и ссылок - ТОЛЬКО для админа */
+body[data-user-role="admin"] .editable.btn:hover:not([contenteditable="true"]) {
     background-color: rgba(0, 123, 255, 0.1) !important;
     border-color: rgba(0, 123, 255, 0.3) !important;
 }
 
-/* Стили для footer элементов */
-.footer .editable:hover:not([contenteditable="true"]) {
+/* Стили для footer элементов - ТОЛЬКО для админа */
+body[data-user-role="admin"] .footer .editable:hover:not([contenteditable="true"]) {
     background-color: rgba(255, 255, 255, 0.1) !important;
     outline-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-.footer .editable[contenteditable="true"] {
+body[data-user-role="admin"] .footer .editable[contenteditable="true"] {
     background-color: rgba(255, 255, 255, 0.15) !important;
     outline-color: rgba(255, 255, 255, 0.5) !important;
     color: white !important;
+}
+
+/* Убираем все эти стили для неадминов */
+body[data-user-role="guest"] .editable.btn:hover,
+body[data-user-role="user"] .editable.btn:hover,
+body[data-user-role="guest"] .footer .editable:hover,
+body[data-user-role="user"] .footer .editable:hover {
+    background-color: transparent !important;
+    border-color: initial !important;
+    outline: none !important;
 }
 
 /* Стили для уведомлений */
@@ -168,23 +203,38 @@
     transition: outline 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Стили для специфических элементов проекта */
-.editable.logo-text:hover:not([contenteditable="true"]) {
+/* Стили для специфических элементов проекта - ТОЛЬКО для админа */
+body[data-user-role="admin"] .editable.logo-text:hover:not([contenteditable="true"]) {
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05));
 }
 
-.editable.hero-title:hover:not([contenteditable="true"]),
-.editable.hero-subtitle:hover:not([contenteditable="true"]) {
+body[data-user-role="admin"] .editable.hero-title:hover:not([contenteditable="true"]),
+body[data-user-role="admin"] .editable.hero-subtitle:hover:not([contenteditable="true"]) {
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), transparent);
 }
 
-/* Стили для контактной информации */
-.contact-info .editable:hover:not([contenteditable="true"]) {
+/* Стили для контактной информации - ТОЛЬКО для админа */
+body[data-user-role="admin"] .contact-info .editable:hover:not([contenteditable="true"]) {
     background-color: rgba(0, 123, 255, 0.08) !important;
     outline-color: rgba(0, 123, 255, 0.4) !important;
 }
 
-/* Стили для заголовков секций */
-.section-title.editable:hover:not([contenteditable="true"]) {
+/* Стили для заголовков секций - ТОЛЬКО для админа */
+body[data-user-role="admin"] .section-title.editable:hover:not([contenteditable="true"]) {
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.02));
+}
+
+/* Убираем все эти стили для неадминов */
+body[data-user-role="guest"] .editable.logo-text:hover,
+body[data-user-role="user"] .editable.logo-text:hover,
+body[data-user-role="guest"] .editable.hero-title:hover,
+body[data-user-role="user"] .editable.hero-title:hover,
+body[data-user-role="guest"] .editable.hero-subtitle:hover,
+body[data-user-role="user"] .editable.hero-subtitle:hover,
+body[data-user-role="guest"] .contact-info .editable:hover,
+body[data-user-role="user"] .contact-info .editable:hover,
+body[data-user-role="guest"] .section-title.editable:hover,
+body[data-user-role="user"] .section-title.editable:hover {
+    background: transparent !important;
+    outline: none !important;
 }

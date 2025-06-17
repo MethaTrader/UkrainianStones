@@ -47,16 +47,38 @@
                 <h5 class="text-white mb-3 editable" data-placeholder="Заголовок раздела">Компанія</h5>
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="#quarry" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Наш кар'єр</a>
+                        <a @guest href="#quarry" @endguest
+                        @auth
+                            @if(auth()->user()->canEditContent())
+                                href="javascript:void(0)"
+                           data-original-href="#quarry"
+                           @else
+                               href="#quarry"
+                           @endif
+                           @endauth
+                           class="text-light-emphasis text-decoration-none @auth @if(auth()->user()->canEditContent()) editable @endif @endauth"
+                           @auth @if(auth()->user()->canEditContent()) data-placeholder="Пункт меню" @endif @endauth>Наш кар'єр</a>
                     </li>
                     <li class="mb-2">
-                        <a href="#production" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Виробництво</a>
+                        <a @guest href="#production" @endguest
+                        @auth
+                            @if(auth()->user()->canEditContent())
+                                href="javascript:void(0)"
+                           data-original-href="#production"
+                           @else
+                               href="#production"
+                           @endif
+                           @endauth
+                           class="text-light-emphasis text-decoration-none @auth @if(auth()->user()->canEditContent()) editable @endif @endauth"
+                           @auth @if(auth()->user()->canEditContent()) data-placeholder="Пункт меню" @endif @endauth>Виробництво</a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Про нас</a>
+                        <a href="#" class="text-light-emphasis text-decoration-none @auth @if(auth()->user()->canEditContent()) editable @endif @endauth"
+                           @auth @if(auth()->user()->canEditContent()) data-placeholder="Пункт меню" @endif @endauth>Про нас</a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Кар'єра</a>
+                        <a href="#" class="text-light-emphasis text-decoration-none @auth @if(auth()->user()->canEditContent()) editable @endif @endauth"
+                           @auth @if(auth()->user()->canEditContent()) data-placeholder="Пункт меню" @endif @endauth>Кар'єра</a>
                     </li>
                 </ul>
             </div>
@@ -69,13 +91,24 @@
                     <li class="mb-2">
                         <a href="#" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Поширені питання</a>
                     </li>
-                    <li class="mb-2">
-                        <a href="#contact" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Контакти</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Технічна підтримка</a>
-                    </li>
-                </ul>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a @guest href="#contact" @endguest
+                            @auth
+                                @if(auth()->user()->canEditContent())
+                                    href="javascript:void(0)"
+                               data-original-href="#contact"
+                               @else
+                                   href="#contact"
+                               @endif
+                               @endauth
+                               class="text-light-emphasis text-decoration-none @auth @if(auth()->user()->canEditContent()) editable @endif @endauth"
+                               @auth @if(auth()->user()->canEditContent()) data-placeholder="Пункт меню" @endif @endauth>Контакти</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-light-emphasis text-decoration-none editable" data-placeholder="Пункт меню">Технічна підтримка</a>
+                        </li>
+                    </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
                 <h5 class="text-white mb-3 editable" data-placeholder="Заголовок раздела">Правова інформація</h5>

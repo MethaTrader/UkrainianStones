@@ -1,19 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
-final class HomeController extends Controller
+class HomeController extends Controller
 {
     /**
-     * Display the home page.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public function index(): View
+    public function __construct()
     {
-        return view('pages.home');
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
     }
 }

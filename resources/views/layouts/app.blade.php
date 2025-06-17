@@ -21,12 +21,37 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
     <!-- Vite Assets -->
-    @vite(['resources/js/app.js', 'resources/js/inline-editor.js', 'resources/css/inline-editor.css'])
-
+    @vite(['resources/js/app.js', 'resources/js/inline-editor.js', 'resources/css/inline-editor.css', 'resources/css/admin.css'])
 
     @stack('styles')
 </head>
-<body>
+<body data-user-role="{{ \App\Helpers\AdminHelper::getUserRole() }}"
+      data-editing-enabled="{{ \App\Helpers\AdminHelper::canEditContent() ? 'true' : 'false' }}">
+
+<!-- Admin Panel Indicator -->
+@if(\App\Helpers\AdminHelper::isAdmin())
+    <div id="admin-indicator" class="admin-indicator">
+        <div class="admin-indicator-content">
+            <i class="fas fa-edit me-2"></i>
+            <span>Режим редагування</span>
+            <div class="admin-controls">
+                <button id="toggle-editing" class="btn btn-sm btn-outline-light ms-2">
+                    <i class="fas fa-eye me-1"></i>
+                    <span>Переглянути як гість</span>
+                </button>
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                   class="btn btn-sm btn-outline-light ms-2">
+                    <i class="fas fa-sign-out-alt me-1"></i>Вийти
+                </a>
+            </div>
+        </div>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    </div>
+@endif
+
 <!-- Preloader Component -->
 @include('components.preloader')
 

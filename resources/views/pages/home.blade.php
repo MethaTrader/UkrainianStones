@@ -127,7 +127,7 @@
                 <div class="col-lg-8" data-aos="zoom-in" data-aos-delay="200">
                     <div class="card shadow-lg border-0">
                         <div class="card-body p-5">
-                            <form class="contact-form" action="{{ route('contact.send') }}" method="POST">
+                            <form class="contact-form" action="#" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">

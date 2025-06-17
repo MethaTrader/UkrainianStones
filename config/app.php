@@ -123,4 +123,30 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Admin Email
+    |--------------------------------------------------------------------------
+    |
+    | This email defines the administrator of the application.
+    | User with this email will have admin privileges.
+    |
+    */
+
+    'admin_email' => env('ADMIN_EMAIL', 'admin@ukrainianstone.ua'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Content Editing Settings
+    |--------------------------------------------------------------------------
+    |
+    | Settings for inline content editing functionality.
+    |
+    */
+
+    'content_editing' => [
+        'enabled' => env('CONTENT_EDITING_ENABLED', true),
+        'visual_indicators' => env('CONTENT_EDITING_VISUAL_INDICATORS', true),
+    ],
+
 ];

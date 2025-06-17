@@ -1,12 +1,15 @@
 /**
  * Inline Editor для Laravel проекта "Український Камінь"
- * Позволяет редактировать текст по двойному клику
+ * Позволяет редактировать текст по двойному клику только для администраторов
  */
 
 class InlineEditor {
     constructor() {
         this.editableElements = [];
         this.currentlyEditing = null;
+        this.isAdmin = false;
+        this.editingEnabled = false;
+        this.editingMode = 'admin'; // 'admin' или 'guest'
         this.init();
     }
 
@@ -20,6 +23,15 @@ class InlineEditor {
     }
 
     setup() {
+        // Проверяем роль пользователя
+        this.checkUserRole();
+
+        // Если не админ, полностью отключаем функционал
+        if (!this.isAdmin || !this.editingEnabled) {
+            console.log('Inline Editor: доступ запрещен - пользователь не является администратором');
+            return;
+        }
+
         // Находим все элементы с классом 'editable'
         this.editableElements = document.querySelectorAll('.editable');
 
@@ -28,12 +40,110 @@ class InlineEditor {
             this.attachEventListeners(element);
         });
 
-        console.log(`Inline Editor инициализирован для ${this.editableElements.length} элементов`);
+        // Настраиваем контролы админ панели
+        this.setupAdminControls();
+
+        // Устанавливаем начальный режим
+        this.setEditingMode(this.editingMode);
+
+        console.log(`Inline Editor инициализирован для ${this.editableElements.length} элементов (Адміністратор)`);
+    }
+
+    checkUserRole() {
+        const userRole = document.body.getAttribute('data-user-role');
+        const editingEnabled = document.body.getAttribute('data-editing-enabled');
+
+        this.isAdmin = userRole === 'admin';
+        this.editingEnabled = editingEnabled === 'true';
+
+        if (this.isAdmin && this.editingEnabled) {
+            document.body.setAttribute('data-editing-mode', 'admin');
+        }
+    }
+
+    setupAdminControls() {
+        const toggleButton = document.getElementById('toggle-editing');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                this.toggleEditingMode();
+            });
+        }
+
+        // Блокируем стандартное поведение ссылок в режиме редактирования
+        this.blockNavigationInEditMode();
+    }
+
+    toggleEditingMode() {
+        this.editingMode = this.editingMode === 'admin' ? 'guest' : 'admin';
+        this.setEditingMode(this.editingMode);
+
+        const toggleButton = document.getElementById('toggle-editing');
+        const icon = toggleButton.querySelector('i');
+        const text = toggleButton.querySelector('span');
+
+        if (this.editingMode === 'guest') {
+            icon.className = 'fas fa-edit me-1';
+            text.textContent = 'Режим редагування';
+            toggleButton.classList.remove('btn-outline-light');
+            toggleButton.classList.add('btn-light', 'text-dark');
+        } else {
+            icon.className = 'fas fa-eye me-1';
+            text.textContent = 'Переглянути як гість';
+            toggleButton.classList.remove('btn-light', 'text-dark');
+            toggleButton.classList.add('btn-outline-light');
+        }
+    }
+
+    setEditingMode(mode) {
+        document.body.setAttribute('data-editing-mode', mode);
+
+        if (mode === 'guest') {
+            // Завершаем текущее редактирование
+            if (this.currentlyEditing) {
+                this.stopEditing(this.currentlyEditing, true);
+            }
+            // Отключаем все hover эффекты
+            this.editableElements.forEach(element => {
+                this.hideHoverHint(element);
+            });
+        }
+    }
+
+    blockNavigationInEditMode() {
+        // Блокируем все ссылки кроме выхода
+        document.addEventListener('click', (e) => {
+            if (this.editingMode === 'admin' && this.isAdmin) {
+                const link = e.target.closest('a');
+                if (link && !link.closest('.admin-controls') && !link.closest('#logout-form')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }
+        }, true);
+
+        // Блокируем скроллинг к якорям
+        document.addEventListener('click', (e) => {
+            if (this.editingMode === 'admin' && this.isAdmin) {
+                const link = e.target.closest('a[href^="#"]');
+                if (link && !link.closest('.admin-controls')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        }, true);
     }
 
     attachEventListeners(element) {
+        // Проверяем доступность редактирования
+        if (!this.isAdmin || !this.editingEnabled) {
+            return;
+        }
+
         // Двойной клик для начала редактирования
         element.addEventListener('dblclick', (e) => {
+            if (this.editingMode !== 'admin') return;
+
             e.preventDefault();
             e.stopPropagation(); // Останавливаем всплытие события
             this.startEditing(element);
@@ -43,7 +153,7 @@ class InlineEditor {
         if (element.tagName === 'A' || element.closest('a')) {
             element.addEventListener('click', (e) => {
                 // Если элемент в режиме редактирования, блокируем переход
-                if (element.contentEditable === 'true') {
+                if (element.contentEditable === 'true' || this.editingMode === 'admin') {
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
@@ -53,26 +163,30 @@ class InlineEditor {
 
         // Hover эффект для подсказки администратору
         element.addEventListener('mouseenter', () => {
-            if (!this.currentlyEditing) {
+            if (!this.currentlyEditing && this.editingMode === 'admin') {
                 this.showHoverHint(element);
             }
         });
 
         element.addEventListener('mouseleave', () => {
-            if (!this.currentlyEditing) {
+            if (!this.currentlyEditing && this.editingMode === 'admin') {
                 this.hideHoverHint(element);
             }
         });
     }
 
     showHoverHint(element) {
-        element.style.outline = '2px dashed rgba(0, 123, 255, 0.3)';
-        element.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
+        if (this.editingMode !== 'admin') return;
+
+        element.style.outline = '2px dashed rgba(220, 53, 69, 0.5)';
+        element.style.backgroundColor = 'rgba(220, 53, 69, 0.08)';
         element.style.cursor = 'text';
         element.title = 'Двойной клик для редактирования';
     }
 
     hideHoverHint(element) {
+        if (element.contentEditable === 'true') return;
+
         element.style.outline = '';
         element.style.backgroundColor = '';
         element.style.cursor = '';
@@ -185,7 +299,7 @@ class InlineEditor {
             const newText = element.textContent.trim().replace(/\s+/g, ' ');
             element.textContent = newText;
 
-            console.log('Текст изменен:', {
+            console.log('Текст змінено:', {
                 element: element.tagName + (element.className ? '.' + element.className : ''),
                 oldText: element.getAttribute('data-original-text'),
                 newText: newText
@@ -241,7 +355,7 @@ class InlineEditor {
         notification.className = 'inline-editor-notification';
         notification.innerHTML = `
             <i class="fas fa-check-circle"></i>
-            Текст успешно изменен
+            Текст успішно змінено
         `;
 
         // Добавляем стили
@@ -254,7 +368,7 @@ class InlineEditor {
             padding: '12px 20px',
             borderRadius: '6px',
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            zIndex: '9999',
+            zIndex: '10001', // Выше админ панели (у неё 10000)
             fontFamily: 'inherit',
             fontSize: '14px',
             display: 'flex',
@@ -263,6 +377,13 @@ class InlineEditor {
             transform: 'translateX(100%)',
             transition: 'transform 0.3s ease'
         });
+
+        // Если есть админ панель, опускаем уведомление ниже неё
+        const adminIndicator = document.getElementById('admin-indicator');
+        if (adminIndicator) {
+            const adminHeight = adminIndicator.offsetHeight;
+            notification.style.top = `${adminHeight + 10}px`;
+        }
 
         document.body.appendChild(notification);
 
@@ -284,6 +405,8 @@ class InlineEditor {
 
     // Публичные методы для управления
     addEditableElement(element) {
+        if (!this.isAdmin || !this.editingEnabled) return;
+
         if (element && !element.classList.contains('editable')) {
             element.classList.add('editable');
             this.attachEventListeners(element);
@@ -292,6 +415,8 @@ class InlineEditor {
     }
 
     removeEditableElement(element) {
+        if (!this.isAdmin || !this.editingEnabled) return;
+
         if (element && element.classList.contains('editable')) {
             element.classList.remove('editable');
             const index = this.editableElements.indexOf(element);
@@ -303,8 +428,10 @@ class InlineEditor {
 
     // Включить/выключить редактирование для всех элементов
     toggleEditing(enabled) {
+        if (!this.isAdmin) return;
+
         this.editableElements.forEach(element => {
-            if (enabled) {
+            if (enabled && this.editingMode === 'admin') {
                 element.style.pointerEvents = '';
             } else {
                 element.style.pointerEvents = 'none';
@@ -313,6 +440,15 @@ class InlineEditor {
                 }
             }
         });
+    }
+
+    // Получить текущий режим
+    getEditingMode() {
+        return {
+            isAdmin: this.isAdmin,
+            editingEnabled: this.editingEnabled,
+            mode: this.editingMode
+        };
     }
 }
 
